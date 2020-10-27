@@ -1,25 +1,16 @@
 package code.config.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.SimpleCookie;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisManager;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
-import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,9 +20,6 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfiguration {
-
-    @Resource
-    private RedisClient redisClient;
 
     /**
      * Shiro的Web过滤器Factory 命名:shiroFilter
@@ -43,7 +31,6 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("authc", new AjaxPermissionsAuthorizationFilter());
-        filterMap.put("authc", kickoutSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         /*定义shiro过滤链  Map结构
          * Map中key(xml中是指value值)的第一个'/'代表的路径是相对于HttpServletRequest.getContextPath()的值来的
@@ -58,6 +45,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/login/auth", "anon");
         filterChainDefinitionMap.put("/article/test", "anon");
         filterChainDefinitionMap.put("/login/logout", "anon");
+        filterChainDefinitionMap.put("/user/**", "anon");
         filterChainDefinitionMap.put("/error", "anon");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
@@ -127,66 +115,5 @@ public class ShiroConfiguration {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager());
         return authorizationAttributeSourceAdvisor;
-    }
-/***************************************************************************************************************/
-    /**
-     * 限制同一账号登录同时登录人数控制
-     *
-     * @return
-     */
-    public KickoutSessionFilter kickoutSessionControlFilter() {
-        KickoutSessionFilter kickoutSessionControlFilter = new KickoutSessionFilter();
-        //使用cacheManager获取相应的cache来缓存用户登录的会话；用于保存用户—会话之间的关系的；
-        //这里我们还是用之前shiro使用的redisManager()实现的cacheManager()缓存管理
-        //也可以重新另写一个，重新配置缓存时间之类的自定义缓存属性
-        kickoutSessionControlFilter.setCacheManager(cacheManager());
-        //用于根据会话ID，获取会话进行踢出操作的；
-        kickoutSessionControlFilter.setSessionManager(sessionManager());
-        //是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户；踢出顺序。
-        kickoutSessionControlFilter.setKickoutAfter(false);
-        //同一个用户最大的会话数，默认1；比如2的意思是同一个用户允许最多同时两个人登录；
-        kickoutSessionControlFilter.setMaxSession(1);
-        //被踢出后重定向到的地址；
-        kickoutSessionControlFilter.setKickoutUrl("/kickout");
-        return kickoutSessionControlFilter;
-    }
-
-    /**
-     * Session Manager
-     * 使用的是shiro-redis开源插件
-     */
-    @Bean
-    public DefaultWebSessionManager sessionManager() {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        sessionManager.setSessionDAO(redisSessionDAO());
-        return sessionManager;
-    }
-
-    /**
-     * RedisSessionDAO shiro sessionDao层的实现 通过redis
-     * 使用的是shiro-redis开源插件
-     */
-    @Bean
-    public RedisSessionDAO redisSessionDAO() {
-        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-        redisSessionDAO.setRedisManager(redisManager());
-        return redisSessionDAO;
-    }
-
-    public RedisManager redisManager() {
-        RedisManager redisManager = new RedisManager();
-        return redisManager;
-    }
-
-    /**
-     * cacheManager 缓存 redis实现
-     * 使用的是shiro-redis开源插件
-     *
-     * @return
-     */
-    public RedisCacheManager cacheManager() {
-        RedisCacheManager redisCacheManager = new RedisCacheManager();
-        redisCacheManager.setRedisManager(redisManager());
-        return redisCacheManager;
     }
 }

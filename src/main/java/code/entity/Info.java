@@ -1,15 +1,13 @@
-package code.common;
+package code.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-@JsonIgnoreProperties(value = {"fullName", "comment"})
-public class JsonZhuJieTest {
+public class Info {
     private String id;
     private String name;
     private String fullName;
@@ -25,7 +23,7 @@ public class JsonZhuJieTest {
     private Date reg2Date;
 
     public static void main(String[] args) {
-        JsonZhuJieTest jsonZhuJieTest = new JsonZhuJieTest();
+        Info jsonZhuJieTest = new Info();
         jsonZhuJieTest.setId("t-000001");
         jsonZhuJieTest.setName("Name-1");
         jsonZhuJieTest.setFullName("Name-1-李");
