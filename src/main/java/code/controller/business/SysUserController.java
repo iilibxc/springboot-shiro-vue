@@ -49,23 +49,24 @@ public class SysUserController {
         return sysUserService.getAllRoles();
     }
 
-    private static int ExpireTime = 60;   // redis中存储的过期时间60s
+    private static int ExpireTime = 60*60;   // redis中存储的过期时间60s
 
     @Resource
     private RedisUtil redisUtil;
 
     @RequestMapping("set")
     public boolean redisset(String key, String value) {
-        Info jsonZhuJieTest = new Info();
-        jsonZhuJieTest.setId("t-000001");
-        jsonZhuJieTest.setName("Name-1");
-        jsonZhuJieTest.setFullName("Name-1-李");
-        jsonZhuJieTest.setComment("C=测试");
-        jsonZhuJieTest.setMail("Name-1@test.com");
-        jsonZhuJieTest.setAddress("address");
-        jsonZhuJieTest.setRegDate(new Date());
-        jsonZhuJieTest.setReg2Date(new Date());
-        return redisUtil.set(key, jsonZhuJieTest, ExpireTime);
+        key="info";
+        Info info = new Info();
+        info.setId("t-000001");
+        info.setName("Name-1");
+        info.setFullName("Name-1-李");
+        info.setComment("C=测试");
+        info.setMail("Name-1@test.com");
+        info.setAddress("address");
+        info.setRegDate(new Date());
+        info.setReg2Date(new Date());
+        return redisUtil.set(key, info, ExpireTime);
     }
 
     @RequestMapping("get")
