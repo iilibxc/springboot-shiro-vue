@@ -1,11 +1,12 @@
 server:
   port: 8089
+  #生产证书本地
   #keytool -genkey -alias https -keyalg RSA -keystore javastack.keystore
-#  ssl:
-#    protocol: TLS
-#    key-store: classpath:javastack.keystore
-#    key-password: javastack
-#    key-store-type: JKS
+  ssl:
+    protocol: TLS
+    key-store: classpath:javastack.keystore
+    key-password: javastack
+    key-store-type: JKS
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
