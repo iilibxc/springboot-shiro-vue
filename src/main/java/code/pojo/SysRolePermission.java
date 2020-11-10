@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysRolePermission {
+public class SysRolePermission extends BaseEntity{
     @Excel(name = "角色id", orderNum = "0")
     @ApiParam(value = "角色id")
     private Integer roleId;

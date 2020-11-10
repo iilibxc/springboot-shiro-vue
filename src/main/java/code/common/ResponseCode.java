@@ -30,9 +30,7 @@ public enum ResponseCode {
     NEED_LOGIN("20001", "登录失效"),
     USERNAME_OR_PASSWORD_EMPTY("20002", "用户名或密码不能为空"),
     USERNAME_OR_PASSWORD_WRONG("20003", "用户名或密码错误"),
-
     WRONG_PASSWORD("20005", "密码错误"),
-
     // 订单模块 4xxxx
 
     ;

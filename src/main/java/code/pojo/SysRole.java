@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysRole {
+public class SysRole extends BaseEntity{
     @Excel(name = "角色名", orderNum = "0")
     @ApiParam(value = "角色名")
     private String roleName;

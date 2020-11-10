@@ -9,6 +9,7 @@ import code.pojo.SysRole;
 import code.pojo.SysRolePermission;
 import code.pojo.SysUser;
 import code.service.SysRoleService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,8 @@ public class SysRoleServiceImpl implements SysRoleService {
      * 角色列表
      */
     @Override
-    public ServerResponse listRole() {
+    public ServerResponse listRole(SysRole sysRole) {
+        PageHelper.startPage(sysRole.getPageNum(), sysRole.getPageSize());
         List<SysRole> roles = sysRoleMapper.listRole();
         return ServerResponse.success(roles);
     }

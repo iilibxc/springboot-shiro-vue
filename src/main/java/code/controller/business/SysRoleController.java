@@ -13,13 +13,14 @@ import javax.annotation.Resource;
 public class SysRoleController {
     @Resource
     private SysRoleService sysRoleService;
+
     /**
      * 角色列表
      */
     @RequiresPermissions("role:list")
     @GetMapping("/listRole")
-    public ServerResponse listRole() {
-        return sysRoleService.listRole();
+    public ServerResponse listRole(SysRole role) {
+        return sysRoleService.listRole(role);
     }
 
     /**

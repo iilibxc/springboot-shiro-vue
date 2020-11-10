@@ -44,12 +44,12 @@
                      nickname                                nickname,
                      role_id                                 roleId,
                      delete_status                           deleteStatus,
-                     DATE_FORMAT(create_time, '%Y.%m.%d %T') createTime,
-                     DATE_FORMAT(update_time, '%Y.%m.%d %T') updateTime
+                     create_time createTime,
+                     update_time updateTime
                  FROM sys_user
                  WHERE delete_status = '1'
                  ORDER BY id
-                 LIMIT #{offSet}, #{pageRow}
+
              ) u
             LEFT JOIN sys_role r ON r.id = u.roleId
             LEFT JOIN sys_role_permission rp ON rp.role_id = r.id

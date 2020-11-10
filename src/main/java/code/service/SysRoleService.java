@@ -7,7 +7,7 @@ public interface SysRoleService {
     /**
      * 角色列表
      */
-    ServerResponse listRole();
+    ServerResponse listRole(SysRole sysRole);
 
     /**
      * 查询所有权限, 给角色分配权限时调用

@@ -61,14 +61,19 @@ public class LoginServiceImpl implements LoginService {
         //从session获取用户信息
         Session session = SecurityUtils.getSubject().getSession();
         SysUser userInfo = (SysUser) session.getAttribute(Constant.SESSION_USER_INFO);
-        String username = userInfo.getUsername();
-
-        SysUser userPermission = sysPermissionMapper.getUserPermission(username);
-        session.setAttribute(Constant.SESSION_USER_PERMISSION, userPermission);
-        if (userPermission != null) {
-            return ServerResponse.success(userPermission);
+        if (userInfo == null) {
+            Subject currentUser = SecurityUtils.getSubject();
+            currentUser.logout();
+            return ServerResponse.success(ResponseCode.LOGIN_EXPIRED);
         } else {
-            return ServerResponse.error(ResponseCode.INSUFFICIENT_AUTHORITY);
+            String username = userInfo.getUsername();
+            SysUser userPermission = sysPermissionMapper.getUserPermission(username);
+            session.setAttribute(Constant.SESSION_USER_PERMISSION, userPermission);
+            if (userPermission != null) {
+                return ServerResponse.success(userPermission);
+            } else {
+                return ServerResponse.error(ResponseCode.INSUFFICIENT_AUTHORITY);
+            }
         }
 
     }

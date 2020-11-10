@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysUser {
+public class SysUser extends BaseEntity {
     @Excel(name = "用户名", orderNum = "0")
     @ApiParam(value = "用户名")
     private String username;

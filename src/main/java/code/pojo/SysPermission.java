@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(value = {"requiredPermission"})
-public class SysPermission {
+public class SysPermission extends BaseEntity {
     @Excel(name = "归属菜单,前端判断并展示菜单使用,", orderNum = "0")
     @ApiParam(value = "归属菜单,前端判断并展示菜单使用,")
     private String menuCode;
