@@ -19,6 +19,7 @@ spring:
       max-active: 5
       min-idle: 2
       max-wait: 1000
+
       log-abandoned: true
       pool-prepared-statements: true
   rabbitmq:
@@ -27,12 +28,13 @@ spring:
     password: guest
     port: 5672
     publisher-returns: true
+    publisher-confirm-type: simple
     listener:
       direct:
         acknowledge-mode: manual
       simple:
         prefetch: 100
-    publisher-confirm-type: simple
+
   redis:
     host: localhost
     port: 6379
