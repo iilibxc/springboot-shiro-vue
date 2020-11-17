@@ -129,9 +129,6 @@ public class SmbFileUtil {
         return b + "--" + remoteUrl + sharePath + fileName;
     }
 
-    /**
-     * 获取共享文件夹下的文件名集合     *     * @return
-     */
     public static List<String> getShareFileList(String shareFile) {
         SmbFile smbFile;
         List<String> fileNames = new LinkedList<>();
