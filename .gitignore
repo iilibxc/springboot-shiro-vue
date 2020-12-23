@@ -21,6 +21,7 @@ selenium-debug.log
 *.njsproj
 *.sln
 *.local
+*.iml
 
 package-lock.json
 yarn.lock
