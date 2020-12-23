@@ -1,4 +1,4 @@
-package code.controller.scope;
+package code.scope;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

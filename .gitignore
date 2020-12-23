@@ -1,3 +1,8 @@
 /.idea/
 /target/
 /logs/
+
+#git命令
+#强制推送git push -u origin master -f
+#git commit -m 'delete idea'
+#git rm -r --cached .idea
