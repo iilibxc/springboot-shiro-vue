@@ -1,3 +1,6 @@
+jasypt:
+  encryptor:
+    password: lee
 server:
   port: 8089
   #生产证书本地

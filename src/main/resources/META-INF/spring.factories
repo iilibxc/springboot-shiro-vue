@@ -1,3 +1,3 @@
 org.springframework.boot.env.EnvironmentPostProcessor=code.MyEnvironmentPostProcessor
-org.springframework.boot.env.PropertySourceLoader=code.MyPropertySourceLoader
+#org.springframework.boot.env.PropertySourceLoader=code.MyPropertySourceLoader
 
